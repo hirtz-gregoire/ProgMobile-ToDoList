@@ -1,31 +1,25 @@
-// lib/models/task.dart
+import 'package:uuid/uuid.dart';
 
-class Task {
-  final int? id; // Optionnel
-  final String content; // Requis
-  final bool completed; // Requis
-  final String? title; // Optionnel
+var uuid = const Uuid();
+
+class Task{
+  String? id;
+  String content;
+  bool completed;
+  String? title;
 
   Task({
-    this.id,
     required this.content,
     required this.completed,
-    this.title,
-  });
+    String? pTitle,
+    String? pid
+  }):
+        id=uuid.v4(){
+          id= pid ?? id;
+        }
 
-  // Convert a Task into a Map. The keys must correspond to the names of the columns in the database.
-  Map<String, dynamic> toMap() {
-    return {
-      'id': id,
-      'content': content,
-      'completed': completed,
-      'title': title,
-    };
-  }
-
-  // Implement toString to make it easier to see information about each task when using the print statement.
   @override
   String toString() {
-    return 'Task{id: $id, content: $content, completed: $completed, title: $title}';
+    return "Task(content:$content, id:$id)";
   }
 }
