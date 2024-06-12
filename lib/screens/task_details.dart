@@ -11,21 +11,19 @@ class TaskDetails extends StatefulWidget {
 }
 
 class _TaskDetailsState extends State<TaskDetails> {
-  late TextEditingController _titleController;
+  final _formKey = GlobalKey<FormState>();
   late TextEditingController _contentController;
-  late bool _completed;
+  bool _completed = false;
 
   @override
   void initState() {
     super.initState();
-    _titleController = TextEditingController(text: widget.task.title);
     _contentController = TextEditingController(text: widget.task.content);
     _completed = widget.task.completed;
   }
 
   @override
   void dispose() {
-    _titleController.dispose();
     _contentController.dispose();
     super.dispose();
   }
@@ -34,38 +32,76 @@ class _TaskDetailsState extends State<TaskDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.task.title ?? 'Task Details'),
+        title: Text('Task Details'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextField(
-              controller: _titleController,
-              decoration: InputDecoration(labelText: 'Title'),
-            ),
-            SizedBox(height: 20),
-            TextField(
-              controller: _contentController,
-              decoration: InputDecoration(labelText: 'Content'),
-              maxLines: 5,
-            ),
-            SizedBox(height: 20),
-            Row(
-              children: [
-                Text('Completed:'),
-                Switch(
-                  value: _completed,
-                  onChanged: (value) {
-                    setState(() {
-                      _completed = value;
-                    });
-                  },
+        padding: const EdgeInsets.all(16.0),
+        child: Form(
+          key: _formKey,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              TextFormField(
+                controller: _contentController,
+                decoration: InputDecoration(
+                  labelText: 'Content',
                 ),
-              ],
-            ),
-          ],
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter some content';
+                  }
+                  return null;
+                },
+              ),
+              CheckboxListTile(
+                title: Text('Completed'),
+                value: _completed,
+                onChanged: (value) {
+                  setState(() {
+                    _completed = value!;
+                  });
+                },
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      // Show confirmation message
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(
+                          content: Text('Task updated successfully!'),
+                        ),
+                      );
+                      // Redirect to TasksMaster
+                      Navigator.pop(context);
+                      // Add the updated task to the list (not implemented here)
+                    } else {
+                      // Show error alert
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text('Form Validation Error'),
+                            content: Text('Please fill all the required fields.'),
+                            actions: <Widget>[
+                              TextButton(
+                                child: Text('OK'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
+                  },
+                  child: Text('Save'),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

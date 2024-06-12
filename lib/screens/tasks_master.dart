@@ -14,9 +14,6 @@ class _TasksMasterState extends State<TasksMaster> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Tasks Master'),
-      ),
       body: FutureBuilder<List<Task>>(
         future: _taskService.fetchTasks(),
         builder: (context, snapshot) {
@@ -37,12 +34,6 @@ class _TasksMasterState extends State<TasksMaster> {
             return Center(child: Text('No tasks found'));
           }
         },
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          print("Floating Action Button Clicked");
-        },
-        child: Icon(Icons.add),
       ),
     );
   }
