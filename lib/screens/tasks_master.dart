@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:faker/faker.dart';
 
-import 'models/task.dart';
+import '../models/task.dart';
 
 class  TasksMaster extends StatefulWidget{
 
