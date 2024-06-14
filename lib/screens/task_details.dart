@@ -75,7 +75,9 @@ class _TaskDetailsState extends State<TaskDetails> {
                       );
                       // Redirect to TasksMaster
                       Navigator.pop(context);
-                      // Add the updated task to the list (not implemented here)
+
+
+
                     } else {
                       // Show error alert
                       showDialog(

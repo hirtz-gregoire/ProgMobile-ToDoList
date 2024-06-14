@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todolist/providers/tasks_provider.dart';
 import 'package:todolist/services/task_service.dart';
-import 'package:todolist/models/task.dart';
 import 'package:todolist/widgets/task_preview.dart';
 
 class TasksMaster extends StatefulWidget {
@@ -14,24 +15,20 @@ class _TasksMasterState extends State<TasksMaster> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: FutureBuilder<List<Task>>(
-        future: _taskService.fetchTasks(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+      body: Consumer<TasksProvider>(
+        builder: (context, tasksProvider, child) {
+          if (tasksProvider.tasks.isEmpty) {
+            tasksProvider.load(); // Charger les tâches une fois au début
             return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (snapshot.hasData) {
-            final tasks = snapshot.data!;
+          }
+          else {
             return ListView.builder(
-              itemCount: tasks.length,
+              itemCount: tasksProvider.tasks.length,
               itemBuilder: (context, index) {
-                final task = tasks[index];
+                final task = tasksProvider.tasks[index];
                 return TaskPreview(task: task);
               },
             );
-          } else {
-            return Center(child: Text('No tasks found'));
           }
         },
       ),

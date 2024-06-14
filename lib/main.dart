@@ -4,7 +4,7 @@ import 'package:todolist/providers/tasks_provider.dart';
 import 'package:todolist/widgets/todo_list_app.dart';
 
 void main() {
-  //runApp(ToDoListApp());
+
   runApp(
     ChangeNotifierProvider(
       create: (context) => TasksProvider(),

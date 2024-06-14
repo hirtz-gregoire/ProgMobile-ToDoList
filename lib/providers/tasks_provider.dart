@@ -1,9 +1,11 @@
 
   import 'package:flutter/material.dart';
   import 'package:todolist/models/task.dart';
+import 'package:todolist/services/task_service.dart';
 
-  class TasksProvider with ChangeNotifier {
-    final List<Task> _tasks = [];
+  class TasksProvider extends ChangeNotifier {
+    final TaskService _taskService = TaskService();
+    List<Task> _tasks = [];
 
     List<Task> get tasks => _tasks;
 
@@ -24,4 +26,13 @@
         return null; // Retourne null si aucun élément ne correspond à l'ID
       }
     }
-  }
+
+    void load() async{
+      try {
+        _tasks = await _taskService.fetchTasks();
+        notifyListeners();
+      } catch (e) {
+        print('Error fetching tasks: $e');
+      }
+    }
+}
