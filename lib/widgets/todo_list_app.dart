@@ -18,7 +18,9 @@ class _ToDoListAppState extends State<ToDoListApp> {
         appBar: AppBar(
           title: Text('Tasks Master'),
         ),
+
         body: TasksMaster(),
+
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.push(
