@@ -21,17 +21,6 @@ class _ToDoListAppState extends State<ToDoListApp> {
 
         body: TasksMaster(),
 
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            Navigator.push(
-              _scaffoldKey.currentState!.context,
-              MaterialPageRoute(
-                builder: (context) => TaskForm(),
-              ),
-            );
-          },
-          child: Icon(Icons.add),
-        ),
       ),
     );
   }

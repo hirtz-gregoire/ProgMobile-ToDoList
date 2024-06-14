@@ -11,7 +11,7 @@ class Task{
   Task({
     required this.content,
     required this.completed,
-    String? pTitle,
+    this.title,
     String? pid
   }):
         id=uuid.v4(){
@@ -20,6 +20,6 @@ class Task{
 
   @override
   String toString() {
-    return "Task(content:$content, id:$id)";
+    return "Task(id:$id, titre:$title, content:$content, completed:$completed)";
   }
 }

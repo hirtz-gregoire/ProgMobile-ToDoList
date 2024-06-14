@@ -27,6 +27,14 @@ import 'package:todolist/services/task_service.dart';
       }
     }
 
+    void updateTask(Task updatedTask) {
+      int index = _tasks.indexWhere((task) => task.id == updatedTask.id);
+      if (index != -1) {
+        _tasks[index] = updatedTask;
+        notifyListeners();
+      }
+    }
+
     void load() async{
       try {
         _tasks = await _taskService.fetchTasks();

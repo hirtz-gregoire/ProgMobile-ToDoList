@@ -12,7 +12,7 @@ class TaskPreview extends StatelessWidget {
     return ListTile(
       title: Text(task.title ?? 'No Title'),
       subtitle: Text(task.content),
-      tileColor: task.completed ? Colors.greenAccent : Colors.redAccent,
+      tileColor: task.completed ? Colors.green : Colors.red,
       leading: Icon(task.completed ? Icons.check_circle : Icons.radio_button_unchecked),
       onTap: () {
           Navigator.push(
